@@ -1,94 +1,79 @@
 <?php
 
-class Mahasiswa extends Controller {
-    public function index() {
-        $data = [
-            'judul' => 'Daftar mahasiswa',
-            'mahasiswa' => $this->model('Mahasiswa_model')->getAllMahasiswa()   
-            // ->getMhs()
-        ];
+class Mahasiswa extends Controller
+{
 
+    public function index()
+    {
+        $data["judul"] = "Data mahasiswa";
+        $data['mhs'] = $this->model('Mahasiswa_model')->getAllMahasiswa();
         $this->view('templates/header', $data);
         $this->view('mahasiswa/index', $data);
         $this->view('templates/footer');
     }
 
-        public function detail($id) {
-        $data = [
-            'judul' => 'Mahasiswa' . $id,
-            'mahasiswa' => $this->model('Mahasiswa_model')->getMahasiswaById($id)
-        ];
-
-
+    public function detail($id)
+    {
+        $data["judul"] = "Detail mahasiswa";
+        $data['mhs'] = $this->model('Mahasiswa_model')->getMahasiswaById($id);
         $this->view('templates/header', $data);
         $this->view('mahasiswa/detail', $data);
         $this->view('templates/footer');
     }
 
-    public function tambah() {
-        if ($this->model('Mahasiswa_model')->tambahDataMahasiswa($_POST) > 0 ) {
-            Flasher::setFlash('Berhasil', 'Ditambahkan', 'success');
+    public function tambah()
+    {
+
+        if ($this->model('Mahasiswa_model')->tambahDataMahasiswa($_POST) > 0) {
+            Flasher::setFlash('Berhasil', 'ditambahkan', 'success');
             header('Location: ' . BASEURL . '/mahasiswa');
             exit;
         } else {
-            Flasher::setFlash('Gagal', 'Ditambahkan', 'danger');
+            Flasher::setFlash('Gagal', 'ditambahkan', 'danger');
             header('Location: ' . BASEURL . '/mahasiswa');
             exit;
         }
-    
     }
 
-    public function hapus() {
-        if ($this->model('Mahasiswa_model')->hapusDataMahasiswa($_POST['id']) > 0 ) {
-            Flasher::setFlash('Berhasil', 'Dihapus', 'success');
+    public function hapus($id)
+    {
+
+        if ($this->model('Mahasiswa_model')->hapusDataMahasiswa($id) > 0) {
+            Flasher::setFlash('Berhasil', 'dihapus', 'success');
             header('Location: ' . BASEURL . '/mahasiswa');
             exit;
         } else {
-            Flasher::setFlash('Gagal', 'Dihapus', 'danger');
+            Flasher::setFlash('Gagal', 'dihapus', 'danger');
             header('Location: ' . BASEURL . '/mahasiswa');
             exit;
         }
-    
     }
 
-    public function getubah() {
-        echo json_encode($this->model('Mahasiswa_model')->getMahasiswaById($_POST['id']));
+    public function getubah()
+    {
+        echo json_encode($this->model('Mahasiswa_model')->getMahasiswaById($_POST['id']), true);
     }
 
-    public function ubah() {
-        if ($this->model('Mahasiswa_model')->ubahDataMahasiswa($_POST) > 0 ) {
-            Flasher::setFlash('Berhasil', 'Diubah', 'success');
+    public function ubah()
+    {
+
+        if ($this->model('Mahasiswa_model')->ubahDataMahasiswa($_POST) > 0) {
+            Flasher::setFlash('Berhasil', 'diubah', 'success');
             header('Location: ' . BASEURL . '/mahasiswa');
             exit;
         } else {
-            Flasher::setFlash('Gagal', 'Diubah', 'danger');
+            Flasher::setFlash('Gagal', 'diubah', 'danger');
             header('Location: ' . BASEURL . '/mahasiswa');
             exit;
         }
-    
     }
 
-    public function cari() {
-        if(isset($_POST['cari'])) {
-               $data = [
-            'judul' => 'Daftar mahasiswa',
-            'mahasiswa' => $this->model('Mahasiswa_model')->cariMahasiswa($_POST['keyword'])   
-        ];
-        } else {
-                    $data = [
-            'judul' => 'Daftar mahasiswa',
-            'mahasiswa' => $this->model('Mahasiswa_model')->getAllMahasiswa()   
-            // ->getMhs()
-        ];
-        }
- 
-
+    public function cari()
+    {
+        $data["judul"] = "Cari mahasiswa";
+        $data['mhs'] = $this->model('Mahasiswa_model')->cariDataMahasiswa();
         $this->view('templates/header', $data);
         $this->view('mahasiswa/index', $data);
         $this->view('templates/footer');
-    
     }
 }
- 
- 
-?>

@@ -1,9 +1,11 @@
 <?php
-class User_model {
-    private $nama = 'Vandoo';
 
-    public function getUser() {
+class User_model
+{
+    private $nama = "Hikmat Pandu Raharja";
+
+    public function getUser()
+    {
         return $this->nama;
     }
 }
- 

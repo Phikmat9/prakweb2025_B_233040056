@@ -10,8 +10,10 @@
     <nav class="bg-gray-800 text-white p-4">
         <a href="/" class="px-3 py-2 rounded hover:bg-gray-700">Home</a>
         <a href="/about" class="px-3 py-2 rounded hover:bg-gray-700">About</a>
+        <a href="/categories" class="px-3 py-2 rounded hover:bg-gray-700">Categories</a>
         <a href="/blog" class="px-3 py-2 rounded hover:bg-gray-700">Blog</a>
         <a href="/contact" class="px-3 py-2 rounded hover:bg-gray-700">Contact</a>
+        <a href="/welcome" class="px-3 py-2 rounded hover:bg-gray-700">Welcome</a>
     </nav>
 
     <main class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">

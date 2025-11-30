@@ -28,6 +28,7 @@ class PostFactory extends Factory
             'slug' => Str::slug($title),
             'excerpt'=> fake()->paragraph(3, true),
             'image' => null,
+            'body' => fake()->paragraph(5),
         ];
     }
 }

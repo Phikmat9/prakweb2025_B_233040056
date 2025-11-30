@@ -5,6 +5,8 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 
+
+
 Route::get('/', function () {
     return view('home');
 });
@@ -19,6 +21,10 @@ Route::get('/blog', function () {
 
 Route::get('/contact', function () {
     return view('contact');
+});
+
+Route::get('/welconme', function () {
+    return view('welcome');
 });
 
 Route::get('post', [PostController::class, 'index'])->name('posts.index');

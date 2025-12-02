@@ -17,17 +17,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 5 Users
-        $users = \App\Models\User::factory(5)->create();
-
-        // 2 Categories
-        $categories = \App\Models\Category::factory(2)->create();
-
-        // 10 Posts
-        \App\Models\Post::factory(10)->create([
-            'user_id' => $users->random()->id,
-            'category_id' => $categories->random()->id
-        ]);
+        for ($i = 1; $i <= 10; $i++){
+            User::create([
+                'name' => 'User ' . $i,
+                'username' => 'User' . $i,
+                'email' => 'User' . $i . '@example.com',
+                'password' => bcrypt('password'),
+            ]);
+        }
 
         Category::factory(5)->create();
 

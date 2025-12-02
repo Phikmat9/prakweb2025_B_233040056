@@ -23,7 +23,7 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('/welconme', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 

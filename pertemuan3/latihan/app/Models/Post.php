@@ -23,16 +23,10 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-
-
-
    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-
-
-
 
     public function scopeFilter(Builder $query, array $filters): void
     {
@@ -58,4 +52,8 @@ class Post extends Model
             )
         );
     }
+
+
+      
+
 }

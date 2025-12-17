@@ -27,57 +27,34 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-/*
-|--------------------------------------------------------------------------
-| BLOG
-|--------------------------------------------------------------------------
-*/
+Route::get('/posts', [PostController::class, 'index'])->middleware('auth')->name('posts.index');
+Route::get('/posts/{post:slug}', [PostController::class, 'show'])->middleware('auth')->name('posts.show');
+Route::get('/categories', [CategoryController::class, 'index'])->middleware('auth')->name('categories.index');
 
-// LIST POSTS
-Route::get('/posts', function () {
-    return view('posts', [
-        'title' => 'All Posts',
-        'posts' => Post::latest()->get()
-    ]);
-});
-
-// DETAIL POST
-Route::get('/posts/{post:slug}', function (Post $post) {
-    return view('blog', [
-        'post' => $post
-    ]);
-});
-
-// CATEGORIES
-Route::get('/categories', [CategoryController::class, 'index']);
-
-/*
-|--------------------------------------------------------------------------
-| AUTH
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
+Route::get('/register', [RegisterController::class, 'showRegisterForm'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->middleware('guest');
 
-Route::get('/login', [LoginController::class, 'index'])
-    ->middleware('guest')
-    ->name('login');
-
+Route::get('/login', [LoginController::class, 'showLoginForm'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
+// Dashboard Posts Routes
+Route::get('/dashboard', [DashboardPostController::class, 'index'])->middleware(['auth','verified'])->name('dashboard.posts.index');
+Route::get('/dashboard/posts/create', [DashboardPostController::class, 'create'])->middleware(['auth','verified'])->name('dashboard.posts.create');
+Route::post('/dashboard/posts/store', [DashboardPostController::class, 'store'])->middleware(['auth','verified'])->name('dashboard.posts.store');
+Route::get('/dashboard/posts/show/{post:slug}', [DashboardPostController::class, 'show'])->middleware(['auth','verified'])->name('dashboard.posts.show');
 
-/*
-|--------------------------------------------------------------------------
-| DASHBOARD
-|--------------------------------------------------------------------------
-*/
+Route::get('/dashboard/posts/edit/{post:slug}', [DashboardPostController::class, 'edit'])->middleware(['auth','verified'])->name('dashboard.posts.edit');
+Route::post('/dashboard/posts/update', [DashboardPostController::class, 'update'])->middleware(['auth','verified'])->name('dashboard.posts.update');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::delete('/dashboard/posts/destroy/{id}', [DashboardPostController::class, 'destroy'])->middleware(['auth','verified'])->name('dashboard.posts.destroy');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('/dashboard/posts', DashboardPostController::class);
-});
+// Dashboard Categories Routes
+Route::get('/dashboard/categories', [App\Http\Controllers\DashboardCategoryController::class, 'index'])->middleware(['auth','verified'])->name('dashboard.categories.index');
+Route::get('/dashboard/categories/create', [App\Http\Controllers\DashboardCategoryController::class, 'create'])->middleware(['auth','verified'])->name('dashboard.categories.create');
+Route::post('/dashboard/categories/store', [App\Http\Controllers\DashboardCategoryController::class, 'store'])->middleware(['auth','verified'])->name('dashboard.categories.store');
+
+Route::get('/dashboard/categories/edit/{category:id}', [App\Http\Controllers\DashboardCategoryController::class, 'edit'])->middleware(['auth','verified'])->name('dashboard.categories.edit');
+Route::post('/dashboard/categories/update', [App\Http\Controllers\DashboardCategoryController::class, 'update'])->middleware(['auth','verified'])->name('dashboard.categories.update');
+
+Route::delete('/dashboard/categories/destroy/{id}', [App\Http\Controllers\DashboardCategoryController::class, 'destroy'])->middleware(['auth','verified'])->name('dashboard.categories.destroy');

@@ -12,18 +12,19 @@ use Illuminate\Support\Facades\Validator;
 
 class DashboardPostController extends Controller
 {
+    //===============index method to show list of posts=================
     public function index()
     {
-        $posts = Post::where('user_id', auth()->id());
-
+        $posts = Post::where('user_id', Auth::user()->id);
         if (request('search')) {
             $posts->where('title', 'like', '%' . request('search') . '%');
         }
 
         return view('dashboard.index', [
-            'posts' => $posts->latest()->paginate(5)->withQueryString()
+            'posts' => $posts->paginate(5)->withQueryString()
         ]);
     }
+    //===============================================================
 
     public function create()
     {
@@ -65,7 +66,7 @@ class DashboardPostController extends Controller
             'excerpt' => $request->excerpt,
             'body' => $request->body,
             'image' => $imagePath,
-            'user_id' => auth()->id(),
+            'user_id' => auth()->id,
         ]);
 
         return redirect()->route('dashboard.posts.index')
@@ -114,7 +115,7 @@ class DashboardPostController extends Controller
             $validatedData['image'] = $request->file('image')->store('post-images', 'public');
         }
 
-        $validatedData['user_id'] = auth()->id();
+        $validatedData['user_id'] = auth()->id;
 
         $post->update($validatedData);
 
